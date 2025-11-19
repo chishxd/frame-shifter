@@ -1,9 +1,21 @@
-[gd_scene load_steps=3 format=3 uid="uid://c51l4phqahi2b"]
+[gd_scene load_steps=5 format=4 uid="uid://c51l4phqahi2b"]
 
 [ext_resource type="PackedScene" uid="uid://c8pa4sn5ps8ub" path="res://player.tscn" id="1_ig7tw"]
+[ext_resource type="Texture2D" uid="uid://coyuk1mhaa5ja" path="res://assets/block.png" id="2_0xm2m"]
 
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ig7tw"]
-distance = -35.0
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0xm2m"]
+texture = ExtResource("2_0xm2m")
+texture_region_size = Vector2i(32, 32)
+0:1/0 = 0
+1:1/0 = 0
+1:0/0 = 0
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+
+[sub_resource type="TileSet" id="TileSet_h2yge"]
+tile_size = Vector2i(32, 32)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_0xm2m")
 
 [node name="Main" type="Node2D"]
 
@@ -14,7 +26,6 @@ position = Vector2(16, 19)
 position = Vector2(16, 15)
 zoom = Vector2(4, 4)
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-shape = SubResource("WorldBoundaryShape2D_ig7tw")
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD//wEAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAEAAAAAAAAAAAACAAEAAAAAAAAAAAADAAEAAAAAAAAAAAD+/wEAAAAAAAAAAAAEAAEAAAAAAAAAAAD9/wEAAAAAAAAAAAD8/wEAAAAAAAAAAAACAAIAAAAAAAAAAAACAAMAAAAAAAAAAAAEAAMAAAAAAAAAAAADAAMAAAAAAAAAAAAFAAMAAAAAAAAAAAAGAAQAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_h2yge")
