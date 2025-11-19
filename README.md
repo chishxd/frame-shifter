@@ -13,6 +13,10 @@ Made for<br> ![Hack Club Badge](https://img.shields.io/badge/Hack%20Club-EC3750?
 </div>
 
 
+![hackatime](https://hackatime-badge.hackclub.com/U093R4FFTB6/frame-shifter) ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/chishxd/frame-shifter)
+
+
+
 ## Controls
 - **WASD/Arrows** : Move & Jump(Spacebar works too)
 - **F**  			: Freeze/Unfreeze Time
@@ -26,5 +30,3 @@ Controls when time is frozen:
 ## Credits
 
 Big Thanks to : [Kenney](https://kenney.nl/assets) for free assets
-
-![hackatime](https://hackatime-badge.hackclub.com/U093R4FFTB6/frame-shifter) ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/chishxd/frame-shifter)
