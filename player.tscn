@@ -32,10 +32,11 @@ radius = 10.198039
 script = ExtResource("1_4flbx")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -12)
+position = Vector2(1, -12)
 sprite_frames = SubResource("SpriteFrames_sweqy")
 animation = &"idle"
-frame_progress = 0.6445238
+autoplay = "idle"
+frame_progress = 0.36364174
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -11)
