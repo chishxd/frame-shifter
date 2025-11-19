@@ -6,6 +6,7 @@ var is_active = false
 var is_drawing = false
 var mouse_start = Vector2.ZERO
 var mouse_current = Vector2.ZERO
+@onready var time_tint = $"../TimeTint"
 
 func _input(event):
 	if event is InputEventKey and event.is_pressed() and event.keycode == KEY_F:
@@ -29,9 +30,11 @@ func toggle_freeze():
 	
 	if is_active:
 		print("TIME FROZEN")
+		time_tint.color = Color(0.4, 0.4, 0.6, 1.0)
 	else:
 		print("TIME RESUMED")
 		is_drawing = false
+		time_tint.color = Color(1, 1, 1, 1)
 		queue_redraw()
 		
 func _draw() -> void:
