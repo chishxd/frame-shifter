@@ -212,7 +212,7 @@ sources/1 = SubResource("TileSetAtlasSource_lquwl")
 position = Vector2(1, -1)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
-position = Vector2(5, -11)
+position = Vector2(0, -9)
 zoom = Vector2(3, 3)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]

@@ -6,6 +6,10 @@ var is_active = false
 var is_drawing = false
 var mouse_start = Vector2.ZERO
 var mouse_current = Vector2.ZERO
+var is_placing = false
+var capture_origin = Vector2.ZERO
+var centering_offset = Vector2.ZERO
+
 @onready var time_tint = $"../TimeTint"
 @onready var tile_map = $"../TileMapLayer"
 @onready var ghost_scene = preload("res://scenes/ghost_tile.tscn")
@@ -47,6 +51,7 @@ func _draw() -> void:
 		draw_rect(rect, Color.CYAN, false, 2.0)
 
 func scan_for_tiles():
+	ghost_container.position = Vector2.ZERO
 	for child in ghost_container.get_children():
 		child.queue_free()
 	
@@ -55,9 +60,6 @@ func scan_for_tiles():
 	var end_grid = tile_map.local_to_map(box.end)
 	
 	var found_smth = false
-	
-	#print("=====SCANNING======")
-	#print("Box Covers: ", start_grid, "to: ", end_grid)
 	
 	for x in range(start_grid.x, end_grid.x + 1):
 		for y in range(start_grid.y, end_grid.y + 1):
@@ -80,3 +82,15 @@ func scan_for_tiles():
 				ghost.region_rect = region
 	if found_smth:
 		print("CAPTURE SUCCESSFUL!")
+		is_placing = true
+		var box_center = box.position
+		centering_offset = box.size / 2
+		ghost_container.position = get_global_mouse_position() - centering_offset
+		
+func _process(delta):
+	if is_placing:
+		#var current_mouse = get_global_mouse_position()
+		#var diff = current_mouse - capture_origin
+		
+		ghost_container.position = get_local_mouse_position() - centering_offset
+		
