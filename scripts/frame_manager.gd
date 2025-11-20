@@ -72,6 +72,9 @@ func scan_for_tiles():
 				
 				var ghost = ghost_scene.instantiate()
 				ghost_container.add_child(ghost)
+				ghost.set_meta("source_id", source_id)
+				ghost.set_meta("atlas_coords", atlas_coords)
+				
 				
 				ghost.position = tile_map.map_to_local(cell_pos)
 				ghost.texture = tile_map.tile_set.get_source(source_id).texture
@@ -83,7 +86,6 @@ func scan_for_tiles():
 	if found_smth:
 		print("CAPTURE SUCCESSFUL!")
 		is_placing = true
-		var box_center = box.position
 		centering_offset = box.size / 2
 		ghost_container.position = get_global_mouse_position() - centering_offset
 		
