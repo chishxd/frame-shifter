@@ -47,20 +47,36 @@ func _draw() -> void:
 		draw_rect(rect, Color.CYAN, false, 2.0)
 
 func scan_for_tiles():
-	var box = Rect2(mouse_start, mouse_current - mouse_start).abs()
+	for child in ghost_container.get_children():
+		child.queue_free()
 	
+	var box = Rect2(mouse_start, mouse_current - mouse_start).abs()
 	var start_grid = tile_map.local_to_map(box.position)
 	var end_grid = tile_map.local_to_map(box.end)
 	
-	print("=====SCANNING======")
-	print("Box Covers: ", start_grid, "to: ", end_grid)
+	var found_smth = false
+	
+	#print("=====SCANNING======")
+	#print("Box Covers: ", start_grid, "to: ", end_grid)
 	
 	for x in range(start_grid.x, end_grid.x + 1):
 		for y in range(start_grid.y, end_grid.y + 1):
 			var cell_pos = Vector2i(x, y)
-			
 			var source_id = tile_map.get_cell_source_id(cell_pos)
 			
 			if source_id != -1:
-				print("FOUND BLOCK AT: ", cell_pos)
-	
+				found_smth = true
+				var atlas_coords = tile_map.get_cell_atlas_coords(cell_pos)
+				
+				var ghost = ghost_scene.instantiate()
+				ghost_container.add_child(ghost)
+				
+				ghost.position = tile_map.map_to_local(cell_pos)
+				ghost.texture = tile_map.tile_set.get_source(source_id).texture
+				
+				var tile_size = 18
+				var region = Rect2(atlas_coords * tile_size, Vector2(tile_size,tile_size))
+				ghost.region_enabled = true
+				ghost.region_rect = region
+	if found_smth:
+		print("CAPTURE SUCCESSFUL!")
