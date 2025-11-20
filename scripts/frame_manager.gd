@@ -18,15 +18,20 @@ var centering_offset = Vector2.ZERO
 func _input(event):
 	if event is InputEventKey and event.is_pressed() and event.keycode == KEY_F:
 		toggle_freeze()
+		
 	if is_active:
 		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 			if event.is_pressed():
-				is_drawing = true
-				mouse_start = get_global_mouse_position()
+				if is_placing:
+					paste_tiles()
+				else:
+					is_drawing = true
+					mouse_start = get_global_mouse_position()
 			else:
-				is_drawing= false
-				queue_redraw()
-				scan_for_tiles()
+				if is_drawing:
+					is_drawing= false
+					queue_redraw()
+					scan_for_tiles()
 		if event is InputEventMouseMotion and is_drawing:
 			mouse_current = get_global_mouse_position()
 			queue_redraw()
@@ -96,8 +101,8 @@ func paste_tiles():
 		var global_pos = ghost.global_position
 		var map_pos = tile_map.local_to_map(global_pos)
 		
-		var source_id = tile_map.get_meta("source_id")
-		var atlas_coords = tile_map.get_meta("atlas_coords")
+		var source_id = ghost.get_meta("source_id")
+		var atlas_coords = ghost.get_meta("atlas_coords")
 		
 		tile_map.set_cell(map_pos, source_id, atlas_coords)
 		
