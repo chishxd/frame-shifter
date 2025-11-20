@@ -89,6 +89,25 @@ func scan_for_tiles():
 		centering_offset = box.size / 2
 		ghost_container.position = get_global_mouse_position() - centering_offset
 		
+func paste_tiles():
+	print("Pasting Tiles...")
+	
+	for ghost in ghost_container.get_children():
+		var global_pos = ghost.global_position
+		var map_pos = tile_map.local_to_map(global_pos)
+		
+		var source_id = tile_map.get_meta("source_id")
+		var atlas_coords = tile_map.get_meta("atlas_coords")
+		
+		tile_map.set_cell(map_pos, source_id, atlas_coords)
+		
+		ghost.queue_free()
+	
+	is_placing = false
+	
+	toggle_freeze()
+		
+
 func _process(delta):
 	if is_placing:
 		#var current_mouse = get_global_mouse_position()
