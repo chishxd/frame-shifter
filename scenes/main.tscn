@@ -223,4 +223,6 @@ tile_set = SubResource("TileSet_h2yge")
 process_mode = 3
 script = ExtResource("3_h2yge")
 
+[node name="GhostContainer" type="Node2D" parent="FrameManager"]
+
 [node name="TimeTint" type="CanvasModulate" parent="."]

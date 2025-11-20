@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://3mr2w41d63sc"]
+
+[node name="GhostTile" type="Sprite2D"]
+modulate = Color(0.0072129704, 0.5465848, 9.62615e-07, 0.5882353)

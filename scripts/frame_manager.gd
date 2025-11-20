@@ -8,6 +8,8 @@ var mouse_start = Vector2.ZERO
 var mouse_current = Vector2.ZERO
 @onready var time_tint = $"../TimeTint"
 @onready var tile_map = $"../TileMapLayer"
+@onready var ghost_scene = preload("res://scenes/ghost_tile.tscn")
+@onready var ghost_container = $GhostContainer
 
 func _input(event):
 	if event is InputEventKey and event.is_pressed() and event.keycode == KEY_F:
