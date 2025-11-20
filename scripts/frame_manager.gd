@@ -56,11 +56,14 @@ func _draw() -> void:
 		draw_rect(rect, Color.CYAN, false, 2.0)
 
 func scan_for_tiles():
-	ghost_container.position = Vector2.ZERO
 	for child in ghost_container.get_children():
 		child.queue_free()
-	
+		
+	ghost_container.position = Vector2.ZERO
 	var box = Rect2(mouse_start, mouse_current - mouse_start).abs()
+	
+	var selection_center = box.position + (box.size / 2)
+	
 	var start_grid = tile_map.local_to_map(box.position)
 	var end_grid = tile_map.local_to_map(box.end)
 	
@@ -80,8 +83,8 @@ func scan_for_tiles():
 				ghost.set_meta("source_id", source_id)
 				ghost.set_meta("atlas_coords", atlas_coords)
 				
-				
-				ghost.position = tile_map.map_to_local(cell_pos)
+				var world_pos = tile_map.map_to_local(cell_pos)
+				ghost.position = world_pos - selection_center
 				ghost.texture = tile_map.tile_set.get_source(source_id).texture
 				
 				var tile_size = 18
@@ -91,8 +94,6 @@ func scan_for_tiles():
 	if found_smth:
 		print("CAPTURE SUCCESSFUL!")
 		is_placing = true
-		centering_offset = box.size / 2
-		ghost_container.position = get_global_mouse_position() - centering_offset
 		
 func paste_tiles():
 	print("Pasting Tiles...")
