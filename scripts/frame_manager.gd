@@ -121,7 +121,7 @@ func paste_tiles():
 				var source_id = ghost.get_meta("source_id")
 				var atlas_coords = ghost.get_meta("atlas_coords")
 				
-				tile_map.set_cell(map_pos, source_id, atlas_coords)
+				tile_map.set_cell(map_pos, source_id, atlas_coords, rotation_index)
 		
 			frame.queue_free()
 	
