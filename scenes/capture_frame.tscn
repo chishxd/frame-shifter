@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://dh05wftimk4ya"]
+[gd_scene load_steps=3 format=3 uid="uid://dh05wftimk4ya"]
 
+[ext_resource type="Script" uid="uid://bn42lnjoal37p" path="res://scripts/capture_frame.gd" id="1_ifq2r"]
 [ext_resource type="Texture2D" uid="uid://hmdl07xosavl" path="res://assets/Tiles/tile_0009.png" id="1_s7hj6"]
 
 [node name="CaptureFrame" type="Node2D"]
+script = ExtResource("1_ifq2r")
 
 [node name="Background" type="ColorRect" parent="."]
 offset_right = 40.0
