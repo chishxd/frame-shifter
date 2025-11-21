@@ -9,12 +9,12 @@ var mouse_current = Vector2.ZERO
 var is_placing = false
 var capture_origin = Vector2.ZERO
 var centering_offset = Vector2.ZERO
+var rotation_index = 0 #0 is 0deg, 1 is 90, 2 is 180 and 3 is 270
 
 @onready var time_tint = $"../TimeTint"
 @onready var tile_map = $"../TileMapLayer"
 @onready var frame_scene = preload("res://scenes/capture_frame.tscn")
 @onready var ghost_scene = preload("res://scenes/ghost_tile.tscn")
-#@onready var ghost_container = $GhostContainer
 
 func _input(event):
 	if event is InputEventKey and event.is_pressed() and event.keycode == KEY_F:
@@ -57,6 +57,7 @@ func _draw() -> void:
 		draw_rect(rect, Color.CYAN, false, 2.0)
 
 func scan_for_tiles():
+	rotation_index = 0
 	for child in get_children():
 		if child.has_method("setup_frame"):
 			child.queue_free()
@@ -129,8 +130,21 @@ func paste_tiles():
 		
 
 func _process(delta):
-	if is_placing:		
+	if is_placing:
 		for child in get_children():
 			if child.has_method("setup_frame"):
 				child.global_position = get_global_mouse_position()
-		
+				
+		if Input.is_action_just_pressed("rotate_left"):
+			rotate_frame(-1)
+		if Input.is_action_just_pressed("rotate_right"):
+			rotate_frame(1)
+
+func rotate_frame(direction):
+	rotation_index = (rotation_index + direction) % 4
+	
+	if rotation_index < 0 : rotation_index = 3
+	
+	for frame in get_children():
+		if frame.has_method("setup_frame"):
+			frame.rotation_degrees = rotation_index * 90
