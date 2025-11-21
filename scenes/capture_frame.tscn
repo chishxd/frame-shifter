@@ -11,7 +11,14 @@ offset_right = 40.0
 offset_bottom = 40.0
 color = Color(0.0627451, 0.0627451, 0.0627451, 0.39215687)
 
-[node name="TileHolder" type="Node2D" parent="."]
+[node name="Mask" type="Control" parent="."]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TileHolder" type="Node2D" parent="Mask"]
 
 [node name="Border" type="NinePatchRect" parent="."]
 modulate = Color(0, 0.7931786, 0.7934029, 1)

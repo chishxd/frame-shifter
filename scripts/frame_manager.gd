@@ -12,8 +12,9 @@ var centering_offset = Vector2.ZERO
 
 @onready var time_tint = $"../TimeTint"
 @onready var tile_map = $"../TileMapLayer"
+@onready var frame_scene = preload("res://scenes/capture_frame.tscn")
 @onready var ghost_scene = preload("res://scenes/ghost_tile.tscn")
-@onready var ghost_container = $GhostContainer
+#@onready var ghost_container = $GhostContainer
 
 func _input(event):
 	if event is InputEventKey and event.is_pressed() and event.keycode == KEY_F:
@@ -56,18 +57,25 @@ func _draw() -> void:
 		draw_rect(rect, Color.CYAN, false, 2.0)
 
 func scan_for_tiles():
-	for child in ghost_container.get_children():
-		child.queue_free()
+	for child in get_children():
+		if child.has_method("setup_frame"):
+			child.queue_free()
 		
-	ghost_container.position = Vector2.ZERO
 	var box = Rect2(mouse_start, mouse_current - mouse_start).abs()
-	
-	var selection_center = box.position + (box.size / 2)
-	
 	var start_grid = tile_map.local_to_map(box.position)
 	var end_grid = tile_map.local_to_map(box.end)
 	
+	var width_in_tiles = (end_grid.x - start_grid.x) + 1
+	var heigh_in_tiles = (end_grid.y - start_grid.y) + 1
+	var grid_dims = Vector2(width_in_tiles, heigh_in_tiles)
+	
 	var found_smth = false
+	
+	# SPAWN FRAME
+	var current_frame = frame_scene.instantiate()
+	add_child(current_frame)
+	
+	current_frame.setup_frame(grid_dims, 18)
 	
 	for x in range(start_grid.x, end_grid.x + 1):
 		for y in range(start_grid.y, end_grid.y + 1):
@@ -79,45 +87,50 @@ func scan_for_tiles():
 				var atlas_coords = tile_map.get_cell_atlas_coords(cell_pos)
 				
 				var ghost = ghost_scene.instantiate()
-				ghost_container.add_child(ghost)
-				ghost.set_meta("source_id", source_id)
-				ghost.set_meta("atlas_coords", atlas_coords)
+				current_frame.add_ghost(ghost)
 				
-				var world_pos = tile_map.map_to_local(cell_pos)
-				ghost.position = world_pos - selection_center
+				var local_x = (x - start_grid.x) * 18
+				var local_y = (y - start_grid.y) * 18
+				ghost.position = Vector2(local_x, local_y)
+				
 				ghost.texture = tile_map.tile_set.get_source(source_id).texture
 				
 				var tile_size = 18
 				var region = Rect2(atlas_coords * tile_size, Vector2(tile_size,tile_size))
 				ghost.region_enabled = true
 				ghost.region_rect = region
+				
+				ghost.set_meta("source_id", source_id)
+				ghost.set_meta("atlas_coords", atlas_coords)
 	if found_smth:
 		print("CAPTURE SUCCESSFUL!")
 		is_placing = true
+	else:
+		current_frame.queue_free()
 		
 func paste_tiles():
 	print("Pasting Tiles...")
 	
-	for ghost in ghost_container.get_children():
-		var global_pos = ghost.global_position
-		var map_pos = tile_map.local_to_map(global_pos)
+	for frame in get_children():
+		if frame.has_method("setup_frame"):
+			for ghost in frame.tile_holder.get_children():
+				
+				var global_pos = ghost.global_position
+				var map_pos = tile_map.local_to_map(global_pos)
+				var source_id = ghost.get_meta("source_id")
+				var atlas_coords = ghost.get_meta("atlas_coords")
+				
+				tile_map.set_cell(map_pos, source_id, atlas_coords)
 		
-		var source_id = ghost.get_meta("source_id")
-		var atlas_coords = ghost.get_meta("atlas_coords")
-		
-		tile_map.set_cell(map_pos, source_id, atlas_coords)
-		
-		ghost.queue_free()
+			frame.queue_free()
 	
 	is_placing = false
-	
 	toggle_freeze()
 		
 
 func _process(delta):
-	if is_placing:
-		#var current_mouse = get_global_mouse_position()
-		#var diff = current_mouse - capture_origin
-		
-		ghost_container.position = get_local_mouse_position() - centering_offset
+	if is_placing:		
+		for child in get_children():
+			if child.has_method("setup_frame"):
+				child.global_position = get_global_mouse_position()
 		
