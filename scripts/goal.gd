@@ -14,6 +14,8 @@ func win_game():
 	get_tree().paused = true
 	
 	var dialog = AcceptDialog.new()
+	
+	dialog.process_mode = Node.PROCESS_MODE_ALWAYS 
 	dialog.title = "LEVEL COMPLETE"
 	dialog.dialog_text = "You are now a frameshifter!\nThanks for playing <3"
 	dialog.confirmed.connect(func(): get_tree().quit())

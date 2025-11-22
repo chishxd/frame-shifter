@@ -36,4 +36,5 @@ texture = ExtResource("1_p20yd")
 [node name="Cloth" type="AnimatedSprite2D" parent="."]
 position = Vector2(6, -27)
 sprite_frames = SubResource("SpriteFrames_la2f0")
-frame_progress = 0.23179948
+autoplay = "default"
+frame_progress = 0.63169074
