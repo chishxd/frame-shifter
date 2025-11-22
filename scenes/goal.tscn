@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://bm0pb8p6bb46a"]
+
+[ext_resource type="Texture2D" uid="uid://yut1waxpq02u" path="res://assets/Tiles/tile_0111.png" id="1_0qle8"]
+[ext_resource type="Script" uid="uid://bxay5cr7myo8h" path="res://scripts/goal.gd" id="1_gcynx"]
+[ext_resource type="Texture2D" uid="uid://cknjc3exhnwsb" path="res://assets/Tiles/tile_0131.png" id="1_p20yd"]
+[ext_resource type="Texture2D" uid="uid://gak5xutuywx4" path="res://assets/Tiles/tile_0112.png" id="2_p20yd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gcynx"]
+size = Vector2(2, 34)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_la2f0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_0qle8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_p20yd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Goal" type="Area2D"]
+script = ExtResource("1_gcynx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -17)
+shape = SubResource("RectangleShape2D_gcynx")
+
+[node name="Pole" type="Sprite2D" parent="."]
+position = Vector2(6, -9)
+texture = ExtResource("1_p20yd")
+
+[node name="Cloth" type="AnimatedSprite2D" parent="."]
+position = Vector2(6, -27)
+sprite_frames = SubResource("SpriteFrames_la2f0")
+frame_progress = 0.23179948
