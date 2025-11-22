@@ -21,5 +21,27 @@ func _physics_process(delta: float) -> void:
 		velocity.x = direction * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
-
+		
 	move_and_slide()
+	
+	check_hazards()
+		
+func check_hazards():
+	for i in range(get_slide_collision_count()):
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+		
+		if collider is TileMapLayer:
+			var hit_pos = collision.get_position() - (collision.get_normal() * 2)
+			
+			var cell_pos = collider.local_to_map(hit_pos)
+			var tile_data = collider.get_cell_tile_data(cell_pos)
+			
+			if tile_data:
+				var is_deadly = tile_data.get_custom_data("is_deadly")
+				if is_deadly:
+					die()
+
+func die():
+	print("OUCH! Restarting")
+	get_tree().reload_current_scene()
