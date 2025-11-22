@@ -17,7 +17,13 @@ var rotation_index = 0 #0 is 0deg, 1 is 90, 2 is 180 and 3 is 270
 @onready var ghost_scene = preload("res://scenes/ghost_tile.tscn")
 
 func _input(event):
-	if event is InputEventKey and event.is_pressed() and event.keycode == KEY_F:
+	
+	if event is InputEventKey and event.pressed and event.keycode ==  KEY_ESCAPE:
+		if is_active:
+			cancel_selection()
+			return
+	
+	if event is InputEventKey and event.pressed and event.keycode == KEY_F:
 		toggle_freeze()
 		
 	if is_active:
@@ -49,9 +55,9 @@ func toggle_freeze():
 		time_tint.color = Color(0.4, 0.4, 0.6, 1.0)
 	else:
 		print("TIME RESUMED")
-		is_drawing = false
+		#is_drawing = false
 		time_tint.color = Color(1, 1, 1, 1)
-		queue_redraw()
+		cancel_selection()
 		
 func _draw() -> void:
 	if is_active and is_drawing:
@@ -159,6 +165,18 @@ func rotate_frame(direction):
 	for frame in get_children():
 		if frame.has_method("setup_frame"):
 			frame.rotation_degrees = rotation_index * 90
+
+func cancel_selection():
+	for child in get_children():
+		if child.has_method("setup_frame"):
+			child.queue_free()
+	
+	is_placing = false
+	is_drawing = false
+	rotation_index = 0
+	
+	queue_redraw()
+	print("SELECTION CANCELED")
 
 func can_place_frame():
 	for frame in get_children():
