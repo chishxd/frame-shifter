@@ -41,6 +41,7 @@ func check_hazards():
 				var is_deadly = tile_data.get_custom_data("is_deadly")
 				if is_deadly:
 					die()
+					return
 
 func die():
 	print("OUCH! Restarting")
