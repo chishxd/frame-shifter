@@ -24,7 +24,10 @@ func _input(event):
 		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 			if event.is_pressed():
 				if is_placing:
-					paste_tiles()
+					if can_place_frame():
+						paste_tiles()
+					else :
+						print("Can't Place Here!`")
 				else:
 					is_drawing = true
 					mouse_start = get_global_mouse_position()
@@ -132,13 +135,21 @@ func paste_tiles():
 func _process(delta):
 	if is_placing:
 		for child in get_children():
+			# Move frame
 			if child.has_method("setup_frame"):
 				child.global_position = get_global_mouse_position()
+		
+				#Rotation Stuff
+				if Input.is_action_just_pressed("rotate_left"):
+					rotate_frame(-1)
+				if Input.is_action_just_pressed("rotate_right"):
+					rotate_frame(1)
 				
-		if Input.is_action_just_pressed("rotate_left"):
-			rotate_frame(-1)
-		if Input.is_action_just_pressed("rotate_right"):
-			rotate_frame(1)
+				# Check Validity
+				if can_place_frame():
+					child.set_valid(true)
+				else:
+					child.set_valid(false)
 
 func rotate_frame(direction):
 	rotation_index = (rotation_index + direction) % 4
@@ -148,3 +159,19 @@ func rotate_frame(direction):
 	for frame in get_children():
 		if frame.has_method("setup_frame"):
 			frame.rotation_degrees = rotation_index * 90
+
+func can_place_frame():
+	for frame in get_children():
+		if frame.has_method("setup_frame"):
+			for ghost in frame.tile_holder.get_children():
+				var offset = Vector2(9,9)
+				var rotated_offset = offset.rotated(frame.rotation)
+				var center_pos = ghost.global_position + rotated_offset
+				var target_map_pos = tile_map.local_to_map(center_pos)
+				
+				var existing_tile_id = tile_map.get_cell_source_id(target_map_pos)
+				
+				#Cuz Air returns -1 source ID
+				if existing_tile_id != -1:
+					return false
+	return true

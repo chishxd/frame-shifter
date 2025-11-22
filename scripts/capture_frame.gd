@@ -26,3 +26,13 @@ func setup_frame(grid_size: Vector2, tile_pixel_size: int):
 	
 func add_ghost(ghost):
 	tile_holder.add_child(ghost)
+
+func set_valid(is_valid: bool):
+	if is_valid:
+		border.modulate = Color(0, 1, 1)
+		background.modulate = Color(0,0,0,0.5)
+		tile_holder.modulate = Color(1, 1, 1)
+	else:
+		border.modulate = Color(1, 0, 0)
+		background.modulate = Color(0.5, 0,0 ,0.5)
+		tile_holder.modulate = Color(1, 0.5, 0.5)
