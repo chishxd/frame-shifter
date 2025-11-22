@@ -15,6 +15,14 @@ var rotation_index = 0 #0 is 0deg, 1 is 90, 2 is 180 and 3 is 270
 @onready var tile_map = $"../TileMapLayer"
 @onready var frame_scene = preload("res://scenes/capture_frame.tscn")
 @onready var ghost_scene = preload("res://scenes/ghost_tile.tscn")
+#MUSICA
+@onready var sfx_freeze = $SFX_Freeze
+@onready var sfx_unfreeze = $SFX_Unfreeze
+@onready var sfx_capture = $SFX_Capture
+@onready var sfx_paste = $SFX_Paste
+
+
+
 
 func _input(event):
 	
@@ -53,10 +61,12 @@ func toggle_freeze():
 	if is_active:
 		print("TIME FROZEN")
 		time_tint.color = Color(0.4, 0.4, 0.6, 1.0)
+		sfx_freeze.play()
 	else:
 		print("TIME RESUMED")
 		#is_drawing = false
 		time_tint.color = Color(1, 1, 1, 1)
+		sfx_unfreeze.play()
 		cancel_selection()
 		
 func _draw() -> void:
@@ -114,6 +124,7 @@ func scan_for_tiles():
 				ghost.set_meta("atlas_coords", atlas_coords)
 	if found_smth:
 		print("CAPTURE SUCCESSFUL!")
+		sfx_capture.play()
 		is_placing = true
 	else:
 		current_frame.queue_free()
@@ -134,6 +145,7 @@ func paste_tiles():
 		
 			frame.queue_free()
 	
+	sfx_paste.play()
 	is_placing = false
 	toggle_freeze()
 		

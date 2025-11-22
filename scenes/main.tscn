@@ -1,10 +1,14 @@
-[gd_scene load_steps=10 format=4 uid="uid://c51l4phqahi2b"]
+[gd_scene load_steps=14 format=4 uid="uid://c51l4phqahi2b"]
 
 [ext_resource type="PackedScene" uid="uid://c8pa4sn5ps8ub" path="res://scenes/player.tscn" id="1_ig7tw"]
 [ext_resource type="Texture2D" uid="uid://bhqqym3p62ert" path="res://assets/Tilemap/tilemap-backgrounds_packed.png" id="1_tbgi4"]
 [ext_resource type="Texture2D" uid="uid://b2t22ddfweal" path="res://assets/Tilemap/tilemap_packed.png" id="3_1bvp3"]
 [ext_resource type="Script" uid="uid://i87ejaltewlx" path="res://scripts/frame_manager.gd" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://bm0pb8p6bb46a" path="res://scenes/goal.tscn" id="4_jyhfs"]
+[ext_resource type="AudioStream" uid="uid://cti5nysd30vgp" path="res://assets/audio/sfx_freeze.wav" id="5_85g3d"]
+[ext_resource type="AudioStream" uid="uid://kl2xtfm2ipa" path="res://assets/audio/sfx_unfreeze.wav" id="6_choun"]
+[ext_resource type="AudioStream" uid="uid://bv0gdssh037tt" path="res://assets/audio/sfx_capture.wav" id="7_ya4ey"]
+[ext_resource type="AudioStream" uid="uid://ddknm74j0jd0m" path="res://assets/audio/sfx_paste.wav" id="8_eb6dy"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tefeu"]
 texture = ExtResource("1_tbgi4")
@@ -522,6 +526,18 @@ process_mode = 3
 script = ExtResource("3_h2yge")
 
 [node name="GhostContainer" type="Node2D" parent="FrameManager"]
+
+[node name="SFX_Freeze" type="AudioStreamPlayer2D" parent="FrameManager"]
+stream = ExtResource("5_85g3d")
+
+[node name="SFX_Unfreeze" type="AudioStreamPlayer2D" parent="FrameManager"]
+stream = ExtResource("6_choun")
+
+[node name="SFX_Capture" type="AudioStreamPlayer2D" parent="FrameManager"]
+stream = ExtResource("7_ya4ey")
+
+[node name="SFX_Paste" type="AudioStreamPlayer2D" parent="FrameManager"]
+stream = ExtResource("8_eb6dy")
 
 [node name="TimeTint" type="CanvasModulate" parent="."]
 
