@@ -3,7 +3,8 @@ extends CharacterBody2D
 
 const SPEED = 150.0
 const JUMP_VELOCITY = -250.0
-
+@onready var sfx_death = $SFX_Death
+@export var death_height = 260
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -23,8 +24,10 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		
 	move_and_slide()
-	
 	check_hazards()
+	
+	if global_position.y > death_height:
+		die()
 		
 func check_hazards():
 	for i in range(get_slide_collision_count()):
@@ -45,4 +48,10 @@ func check_hazards():
 
 func die():
 	print("OUCH! Restarting")
-	get_tree().reload_current_scene()
+	sfx_death.play()
+
+	visible = false            
+	set_physics_process(false) 
+	
+	await get_tree().create_timer(0.5).timeout
+	get_tree().change_scene_to_file("res://scenes/game_over.tscn")

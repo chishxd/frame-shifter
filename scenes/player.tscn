@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://c8pa4sn5ps8ub"]
+[gd_scene load_steps=8 format=3 uid="uid://c8pa4sn5ps8ub"]
 
 [ext_resource type="Script" uid="uid://dkq3csfv0f2p" path="res://scripts/player.gd" id="1_4flbx"]
 [ext_resource type="Texture2D" uid="uid://bk3brnd0y0wcb" path="res://assets/Tilemap/tilemap-characters_packed.png" id="2_onrkg"]
+[ext_resource type="AudioStream" uid="uid://yq6gls6tfacy" path="res://assets/audio/sfx_death.wav" id="3_qhqgy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i3pqv"]
 atlas = ExtResource("2_onrkg")
@@ -41,3 +42,6 @@ frame_progress = 0.36364174
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, -9)
 shape = SubResource("CircleShape2D_2hs0m")
+
+[node name="SFX_Death" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_qhqgy")
