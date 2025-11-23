@@ -106,6 +106,8 @@ func scan_for_tiles():
 				found_smth = true
 				var atlas_coords = tile_map.get_cell_atlas_coords(cell_pos)
 				
+				var alt_id = tile_map.get_cell_alternative_tile(cell_pos)
+				
 				var ghost = ghost_scene.instantiate()
 				current_frame.add_ghost(ghost)
 				
@@ -120,8 +122,17 @@ func scan_for_tiles():
 				ghost.region_enabled = true
 				ghost.region_rect = region
 				
+				if alt_id == 1:
+					ghost.rotation_degrees = 90
+				elif alt_id == 2:
+					ghost.rotation_degrees = 180
+				elif alt_id == 3:
+					ghost.rotation_degrees = 270
+
+				
 				ghost.set_meta("source_id", source_id)
 				ghost.set_meta("atlas_coords", atlas_coords)
+				ghost.set_meta("original_alt_id", alt_id)
 	if found_smth:
 		print("CAPTURE SUCCESSFUL!")
 		sfx_capture.play()
@@ -141,7 +152,11 @@ func paste_tiles():
 				var source_id = ghost.get_meta("source_id")
 				var atlas_coords = ghost.get_meta("atlas_coords")
 				
-				tile_map.set_cell(map_pos, source_id, atlas_coords, rotation_index)
+				var original_rot = ghost.get_meta("original_alt_id")
+				
+				var final_rot_id = (original_rot + rotation_index) % 4
+				
+				tile_map.set_cell(map_pos, source_id, atlas_coords, final_rot_id)
 		
 			frame.queue_free()
 	
