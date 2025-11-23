@@ -551,3 +551,17 @@ position = Vector2(1036, 1)
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(1272, -29)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="HUD"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -54.0
+offset_right = 400.0
+grow_vertical = 0
+text = "[ F ] - FREEZE / CANCEL
+[ LMB ] - CAPTURE / PASTE
+[ Q / E ] - ROTATE FRAME"
+vertical_alignment = 2

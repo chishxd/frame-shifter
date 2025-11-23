@@ -11,17 +11,7 @@ func _on_body_entered(body):
 
 func win_game():
 	print("YOU WIN")
-	get_tree().paused = true
-	
-	var dialog = AcceptDialog.new()
-	
-	dialog.process_mode = Node.PROCESS_MODE_ALWAYS 
-	dialog.title = "LEVEL COMPLETE"
-	dialog.dialog_text = "You are now a frameshifter!\nThanks for playing <3"
-	dialog.confirmed.connect(func(): get_tree().quit())
-	
-	add_child(dialog)
-	dialog.popup_centered()
+	get_tree().change_scene_to_file("res://scenes/end_screen.tscn")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
