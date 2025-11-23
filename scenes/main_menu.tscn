@@ -1,0 +1,63 @@
+[gd_scene load_steps=6 format=3 uid="uid://dq1lj61romsrv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vue75"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l6cm7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l6cm7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ekxnf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bqqt6"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.101960786, 0.10980392, 0.17254902, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 3.0
+offset_top = 58.0
+offset_right = 3.0
+offset_bottom = 146.0
+grow_horizontal = 2
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "[center][wave amp=50 freq=2]FRAMESHIFTER[/wave][/center]
+"
+fit_content = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 254.0
+offset_top = 273.0
+offset_right = 916.0
+offset_bottom = 332.0
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_vue75")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_l6cm7")
+theme_override_styles/hover = SubResource("StyleBoxFlat_l6cm7")
+text = "START GAME"
+
+[node name="Button2" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ekxnf")
+theme_override_styles/hover = SubResource("StyleBoxFlat_bqqt6")
+text = "QUIT"
