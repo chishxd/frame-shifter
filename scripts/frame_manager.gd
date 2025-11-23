@@ -147,11 +147,10 @@ func paste_tiles():
 		if frame.has_method("setup_frame"):
 			for ghost in frame.tile_holder.get_children():
 				
-				var global_pos = ghost.global_position
-				var map_pos = tile_map.local_to_map(global_pos)
+				var map_pos = get_target_map_pos(ghost, frame)
+				
 				var source_id = ghost.get_meta("source_id")
 				var atlas_coords = ghost.get_meta("atlas_coords")
-				
 				var original_rot = ghost.get_meta("original_alt_id")
 				
 				var final_rot_id = (original_rot + rotation_index) % 4
@@ -209,10 +208,7 @@ func can_place_frame():
 	for frame in get_children():
 		if frame.has_method("setup_frame"):
 			for ghost in frame.tile_holder.get_children():
-				var offset = Vector2(9,9)
-				var rotated_offset = offset.rotated(frame.rotation)
-				var center_pos = ghost.global_position + rotated_offset
-				var target_map_pos = tile_map.local_to_map(center_pos)
+				var target_map_pos = get_target_map_pos(ghost, frame)
 				
 				var existing_tile_id = tile_map.get_cell_source_id(target_map_pos)
 				
@@ -220,3 +216,12 @@ func can_place_frame():
 				if existing_tile_id != -1:
 					return false
 	return true
+
+
+func get_target_map_pos(ghost, frame):
+	var pos = ghost.global_position
+	var offset = Vector2(9, 9).rotated(frame.rotation)
+	
+	var center_pos = pos + offset
+	
+	return tile_map.local_to_map(center_pos)
